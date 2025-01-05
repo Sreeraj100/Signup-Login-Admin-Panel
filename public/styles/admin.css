@@ -1,0 +1,116 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url(../images/Login-page.jpg);
+    background-repeat: no-repeat;
+    display: flex;
+    background-size: cover;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .signup-container {
+    padding-left: 20px;
+    padding-right: 47px;
+    border-radius: 8px;
+    box-shadow: 0 5px 6px black;
+    width: 350px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  h1 {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: #ffffff;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+  }
+  
+  label {
+    text-align: left;
+    font-size: 0.9rem;
+    color: rgb(2, 254, 255);
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 0.1px solid rgba(2, 255, 255, 0.635);
+    border-radius: 4px;
+    width: 100%;
+    background: transparent;
+    color: white;
+  }
+  
+  input:focus {
+    border: 0.1px solid white;
+    outline: 3px solid rgb(2, 255, 255);
+  }
+  
+  ::placeholder {
+    color: rgba(72, 166, 166, 0.559);
+  }
+  
+  p {
+    color: white;
+  }
+  
+  button {
+    padding: 0.8rem;
+    font-size: 1rem;
+    background-color: #023690;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 12px;
+    margin-left: 23px;
+    margin-top: 20px;
+  }
+  
+  button:hover {
+    background-color: rgb(6, 196, 196);
+  }
+  
+  a {
+    text-decoration: none;
+    color: rgb(2, 254, 255);
+  }
+  
+  a:hover {
+    outline: none;
+    text-decoration: underline;
+  }
+  
+  .error {
+    color: #FD1C03;
+    font-size: 13px;
+    margin-bottom: 2px;
+    text-align: left;
+    display: none;
+  }
+  
+  ::-ms-reveal {
+    border: 3px solid rgb(2, 254, 255);
+    border-radius: 50%;
+    width: 30px;
+    height: 21px;
+    color: rgb(2, 254, 255);
+    background-color: white;
+  }
+  
