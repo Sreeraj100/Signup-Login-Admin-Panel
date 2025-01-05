@@ -1,0 +1,122 @@
+<link rel="icon" type="icon" href="/images/logo.png">
+<link rel="stylesheet" href="/styles/users.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="signup-container">
+    <h1>Register</h1>   
+    <form id="Form" action="/register" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username">
+        <div class="error" id="username-error"></div>
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" placeholder="Enter your email">
+        <div class="error" id="email-error"></div>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password">
+        <div class="error" id="password-error"></div>
+
+        <label for="confirm-password">Confirm Password:</label>
+        <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password">
+        <div class="error" id="confirm-password-error"></div>
+
+        <button type="submit">Sign Up</button>
+    </form>
+    <p>Already have an account?  <a href="/login"> Login</a></p>
+</div>
+
+<script>
+    const form = document.getElementById('Form');
+    const username = document.getElementById('username');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const confirmpassword = document.getElementById('confirm-password');
+
+    // Function to check email validity
+    const isValidEmail = (email) => {
+        const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return re.test(email.toLowerCase());
+    };
+
+    // Validate inputs function
+    const validateInputs = () => {
+        let isValid = true;
+
+        // Get input values
+        const usernameValue = username.value.trim();
+        const emailValue = email.value.trim();
+        const passwordValue = password.value.trim();
+        const confirmPasswordValue = confirmpassword.value.trim();
+
+        // Clear all error messages
+        document.querySelectorAll('.error').forEach(error => {
+            error.innerText = '';
+            error.style.display = 'none'; // Hide error initially
+        });
+
+        // Validate username
+        if (usernameValue === '') {
+            setError(username, 'Username is required', 'username-error');
+            isValid = false;
+        }
+
+        // Validate email
+        if (emailValue === '') {
+            setError(email, 'Email is required', 'email-error');
+            isValid = false;
+        } else if (!isValidEmail(emailValue)) {
+            setError(email, 'Provide a valid email address', 'email-error');
+            isValid = false;
+        }
+
+        // Validate password
+        if (passwordValue === '') {
+            setError(password, 'Password is required', 'password-error');
+            isValid = false;
+        } else if (passwordValue.length < 8) {
+            setError(password, 'Password must be at least 8 characters', 'password-error');
+            isValid = false;
+        }
+
+        // Validate confirm password
+        if (confirmPasswordValue === '') {
+            setError(confirmpassword, 'Please confirm your password', 'confirm-password-error');
+            isValid = false;
+        } else if (confirmPasswordValue !== passwordValue) {
+            setError(confirmpassword, "Passwords don't match", 'confirm-password-error');
+            isValid = false;
+        }
+
+        return isValid;
+    };
+
+    // Set error message and show it
+    const setError = (element, message, errorId) => {
+        const errorDiv = document.getElementById(errorId);
+        errorDiv.innerText = message;
+        errorDiv.style.display = 'block'; // Show the error message
+    };
+
+    // Handle form submit
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        if (validateInputs()) {
+            // Proceed with form submission if valid
+            form.submit();
+        }
+
+    });
+    const message = '{{{message}}}'; // Triple braces to inject the raw value
+const status = '{{{status}}}';   // Triple braces to inject the raw value
+
+if (message) {
+  console.log(message, status)
+  Swal.fire({
+    icon: status,  
+    title: message, 
+    heightAuto: false,
+  });
+}
+   
+</script>

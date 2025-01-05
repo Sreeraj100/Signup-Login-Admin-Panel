@@ -1,0 +1,152 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Management</title>
+    <link rel="stylesheet" href="/styles/adminHome.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="head">
+            <h1>Admin Dashboard</h1>
+            <form action="/admin/logout" method="GET">
+                <button type="submit" class="primary-button">Logout</button>
+            </form>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <form class="searchform" action="/admin/searchUser" method="POST">
+                <input type="search" placeholder="Search users..." aria-label="Search" name="search" required />
+                <button type="submit">Search</button>
+            </form>
+            <a href="/admin/add">
+                <button type="button" class="primary-button">Add User</button>
+            </a>
+        </div>
+
+        {{#if message}}
+        <div class="alert {{status}}">
+            {{message}}
+        </div>
+        {{/if}}
+
+        <!-- Table of Users -->
+        <table id="userTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if users.length}}
+                {{#each users}}
+                <tr>
+                    <td>{{@index}}</td>
+                    <td>{{this.username}}</td>
+                    <td>{{this.email}}</td>
+                    <td>
+                        <button class="editButton" onclick="editUser('{{this._id}}', '{{this.username}}', '{{this.email}}')">Edit</button>
+                        <button class="deleteButton" onclick="confirmDelete('{{this._id}}')">Delete</button>
+                    </td>
+                </tr>
+                {{/each}}
+                {{else}}
+                <tr>
+                    <td colspan="4" class="text-center">No users found</td>
+                </tr>
+                {{/if}}
+            </tbody>
+        </table>
+        
+
+        <!-- Edit Popup -->
+        <div id="editPopup" class="popup hidden">
+            <div class="popup-content">
+                <h2>Edit User</h2>
+                <form id="editForm" method="POST">
+                    <div class="form-group">
+                        <label for="editUsername">Username:</label>
+                        <input type="text" id="editUsername" name="username" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmail">Email:</label>
+                        <input type="email" id="editEmail" name="email" required />
+                    </div>
+                    <div class="button-group">
+                        <button type="submit" class="primary-button">Save</button>
+                        <button type="button" class="secondary-button" onclick="closePopup('editPopup')">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Delete Confirmation Popup -->
+        <div id="deletePopup" class="popup hidden">
+            <div class="popup-content">
+                <h2>Confirm Delete</h2>
+                <p>Are you sure you want to delete this user?</p>
+                <div class="button-group">
+                    <button id="confirmDelete" class="primary-button">Yes</button>
+                    <button class="secondary-button" onclick="closePopup('deletePopup')">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let deleteUserId = null;
+
+        function editUser(id, username, email) {
+            const editPopup = document.getElementById('editPopup');
+            const editForm = document.getElementById('editForm');
+            
+            document.getElementById('editUsername').value = username;
+            document.getElementById('editEmail').value = email;
+            
+            editForm.action = `/admin/edit/${id}`;
+            editPopup.classList.remove('hidden');
+        }
+
+        function confirmDelete(id) {
+            deleteUserId = id;
+            document.getElementById('deletePopup').classList.remove('hidden');
+        }
+
+        document.getElementById('confirmDelete').addEventListener('click', function() {
+            if (deleteUserId) {
+                window.location.href = `/admin/delete/${deleteUserId}`;
+            }
+        });
+
+        function closePopup(popupId) {
+            document.getElementById(popupId).classList.add('hidden');
+        }
+
+        // Close popup when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('popup')) {
+                event.target.classList.add('hidden');
+            }
+        }
+
+           const message = '{{{message}}}'; // Triple braces to inject the raw value
+const status = '{{{status}}}';   // Triple braces to inject the raw value
+
+if (message) {
+  console.log(message, status)
+  Swal.fire({
+    icon: status,  
+    title: message, 
+    heightAuto: false,
+  });
+}
+    </script>
+</body>
+
+</html>

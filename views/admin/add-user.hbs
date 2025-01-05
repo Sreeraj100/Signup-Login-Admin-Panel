@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+    <link rel="stylesheet" href="/styles/addUser.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Add New User</h1>
+        {{#if message}}
+        <div class="alert error">
+            {{message}}
+        </div>
+        {{/if}}
+        <form id="Form" action="/admin/add" method="POST">
+
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter username">
+            <div class="error" id="username-error"></div>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter email">
+            <div class="error" id="email-error"></div>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter password">
+            <div class="error" id="password-error"></div>
+
+
+            <button type="submit">Add User</button>
+            <a href="/admin/dashboard"><button type="button">Cancel</button></a>
+
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('Form');
+        const username = document.getElementById('username');
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+
+        // Function to check email validity
+        const isValidEmail = (email) => {
+            const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            return re.test(email.toLowerCase());
+        };
+
+        // Validate inputs function
+        const validateInputs = () => {
+            let isValid = true;
+
+            // Get input values
+            const usernameValue = username.value.trim();
+            const emailValue = email.value.trim();
+            const passwordValue = password.value.trim();
+
+            // Clear all error messages
+            document.querySelectorAll('.error').forEach(error => {
+                error.innerText = '';
+                error.style.display = 'none';
+            });
+
+            // Validate username
+            if (usernameValue === '') {
+                setError(username, 'Username is required', 'username-error');
+                isValid = false;
+            }
+
+            // Validate email
+            if (emailValue === '') {
+                setError(email, 'Email is required', 'email-error');
+                isValid = false;
+            } else if (!isValidEmail(emailValue)) {
+                setError(email, 'Provide a valid email address', 'email-error');
+                isValid = false;
+            }
+
+            // Validate password
+            if (passwordValue === '') {
+                setError(password, 'Password is required', 'password-error');
+                isValid = false;
+            } else if (passwordValue.length < 8) {
+                setError(password, 'Password must be at least 8 characters', 'password-error');
+                isValid = false;
+            }
+
+            return isValid;
+        };
+
+        // Set error message and show it
+        const setError = (element, message, errorId) => {
+            const errorDiv = document.getElementById(errorId);
+            errorDiv.innerText = message;
+            errorDiv.style.display = 'block';
+        };
+
+        // Handle form submit
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            if (validateInputs()) {
+                form.submit();
+            }
+        });
+    </script>
+</body>
+
+</html>
