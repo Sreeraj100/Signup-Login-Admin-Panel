@@ -1,4 +1,4 @@
-# Web Application with Admin Panel
+# 💻Web Application with Admin Panel
 
 ## Overview
 This is a full-stack web application featuring user authentication and an admin panel for managing user data. It is designed to handle sessions and cookies securely while allowing administrators to perform CRUD (Create, Read, Update, Delete) operations on user data.
