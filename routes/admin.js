@@ -17,6 +17,6 @@ router.post('/edit/:id', adminAuth.isAdmin, adminController.updateUser);
 
 router.get('/delete/:id', adminAuth.isAdmin, adminController.deleteUser);
 
-router.get('/logout', adminAuth.isAdmin, adminController.logout);
+router.post('/logout', adminAuth.isAdmin, adminController.logout);
 
 module.exports = router;
